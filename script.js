@@ -26,7 +26,7 @@ function selectBook() {
     document.getElementById('processing-message').style.display = 'block';
     document.getElementById('book-selection').style.display = 'none';
 
-    fetch('${BASE_URL}/select_book', {
+    fetch(`${BASE_URL}/select_book`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -43,7 +43,7 @@ function selectBook() {
 
 // Function to check the status of the RAG model
 function checkStatus() {
-    fetch('${BASE_URL}/status')
+    fetch(`${BASE_URL}/status`)
         .then(handleResponse)
         .then(data => {
             if (data.status === 'ready') {
@@ -76,7 +76,7 @@ function askQuestion() {
     // Add typing indicator
     const typingId = addTypingIndicator();
 
-    fetch('${BASE_URL}/ask', {
+    fetch(`${BASE_URL}/ask`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -175,7 +175,7 @@ function handleError(error) {
 // Function to end session
 function endSession() {
     if (confirm('Are you sure you want to end this session?')) {
-        fetch('/end_session', {
+        fetch(`${BASE_URL}/end_session`, {
             method: 'POST',
         })
         .then(handleResponse)
