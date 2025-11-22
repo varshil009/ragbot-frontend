@@ -28,6 +28,7 @@ function selectBook() {
 
     fetch(`${BASE_URL}/select_book`, {
         method: 'POST',
+        credentials: "include",
         headers: {
             'Content-Type': 'application/json',
         },
@@ -41,21 +42,23 @@ function selectBook() {
     .catch(handleError);
 }
 
-// Function to check the status of the RAG model
 function checkStatus() {
-    fetch(`${BASE_URL}/status`)
-        .then(handleResponse)
-        .then(data => {
-            if (data.status === 'ready') {
-                document.getElementById('processing-message').style.display = 'none';
-                document.getElementById('chat-interface').style.display = 'flex';
-                addMessage("Hello! I'm ready to discuss the book with you. What would you like to know?", 'bot-message');
-            } else {
-                setTimeout(checkStatus, 1000);
-            }
-        })
-        .catch(handleError);
+    fetch(`${BASE_URL}/status`, {
+        credentials: 'include'
+    })
+    .then(handleResponse)
+    .then(data => {
+        if (data.status === 'ready') {
+            document.getElementById('processing-message').style.display = 'none';
+            document.getElementById('chat-interface').style.display = 'flex';
+            addMessage("Hello! I'm ready to discuss the book with you. What would you like to know?", 'bot-message');
+        } else {
+            setTimeout(checkStatus, 1000);
+        }
+    })
+    .catch(handleError);
 }
+
 
 // Function to handle user questions
 function askQuestion() {
@@ -78,6 +81,7 @@ function askQuestion() {
 
     fetch(`${BASE_URL}/ask`, {
         method: 'POST',
+        credentials: "include",
         headers: {
             'Content-Type': 'application/json',
         },
@@ -177,6 +181,7 @@ function endSession() {
     if (confirm('Are you sure you want to end this session?')) {
         fetch(`${BASE_URL}/end_session`, {
             method: 'POST',
+            credentials: "include",
         })
         .then(handleResponse)
         .then(data => {
